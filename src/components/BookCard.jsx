@@ -9,32 +9,36 @@ import {
   Button,
 } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { Link } from 'react-router-dom';
+
 function BookCard({book}) {
   return (
     <Card
-  variant="outlined"
-  sx={{  margin:5,
-    padding: 2,
-    width: { xs: '60%', sm: 'auto' },
-    display: 'flex',
-    flexDirection: { xs: 'column', sm: 'row' },
-    alignItems: 'center',
-    gap: 2,
-  }}
->
-  <CardMedia
-    component="img"
-    width="100"
-    height="100"
-    alt="Contemplative Reptile album cover"
-    src={book.image ? book.image : reactLogo}
-    sx={{    width: { xs: '100%', sm: 100 },
-    }}
-  />
-  <CardContent  width="200">
-      <Typography color="text.primary" component='h3'>
-        {book.bookName}
-      </Typography>
+      variant="outlined"
+      sx={{ margin:5,
+        padding: 2,
+        width: { xs: '60%', sm: 'auto' },
+        display: 'flex',
+        flexDirection: { xs: 'column', sm: 'row' },
+        alignItems: 'center',
+        gap: 2,
+      }}
+    >
+    <CardMedia
+      component="img"
+      width="100"
+      height="100"
+      alt={book.bookName}
+      src={book.image ? book.image : reactLogo}
+      sx={{ width: { xs: '100%', sm: 100 },
+      }}
+    />
+    <CardContent  width="200">
+      <Link to={`/books/${book.bookId}`}>
+        <Typography color="text.primary" component='h3'>
+          {book.bookName}
+        </Typography>
+      </Link>
       <Typography
         variant="caption"
         color="text.secondary"
@@ -46,11 +50,11 @@ function BookCard({book}) {
       </Typography>
         <Typography>
           Price: ${book.price.toFixed(2)}
-        </Typography>
-      </CardContent>
-        <CardActions>
-        <Button startIcon={<AddShoppingCartIcon/>}>Add to cart</Button>
-      </CardActions>
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button startIcon={<AddShoppingCartIcon/>}>Add to cart</Button>
+    </CardActions>
     </Card>
   );
 };

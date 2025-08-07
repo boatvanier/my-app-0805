@@ -1,26 +1,23 @@
+import {
+  Routes,
+  Route,
+} from 'react-router-dom';
 
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { useEffect, useState } from 'react'
+import Layout from './layout/Layout';
+import BookListPage from './pages/BookListPage'
+import BookViewPage from './pages/BookViewPage'
+import Home from './pages/Home';
 
 function App() {
-  const [name, setName] = useState("")
-
-  useEffect(
-    ()=>{
-      console.log("name is" + name)
-    }, [name]
-  )
   return (
-    <>
-      <input
-      type='text'
-      value={name}
-      onChange={e=>setName(e.target.value)}>
-      </input>
-      <div>Hello, {name}</div>
-    </>
-  )
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home/>} />
+          <Route path="books" element={<BookListPage />} />
+          <Route path="books/:bookId" element={<BookViewPage />} />
+        </Route>
+      </Routes>
+  );
 }
 
-export default App
+export default App;
