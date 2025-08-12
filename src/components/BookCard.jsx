@@ -1,4 +1,3 @@
-import React from 'react';
 import reactLogo from '../assets/react.svg'
 import {
   Card,
@@ -11,7 +10,7 @@ import {
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Link } from 'react-router-dom';
 
-function BookCard({book}) {
+function BookCard({book, handleAddToCart, isAdding}) {
   return (
     <Card
       variant="outlined"
@@ -53,7 +52,13 @@ function BookCard({book}) {
       </Typography>
     </CardContent>
     <CardActions>
-      <Button startIcon={<AddShoppingCartIcon/>}>Add to cart</Button>
+      <Button 
+        startIcon={<AddShoppingCartIcon/>}
+        onClick={handleAddToCart} 
+        disabled={isAdding}
+      >
+        Add to cart
+      </Button>
     </CardActions>
     </Card>
   );
