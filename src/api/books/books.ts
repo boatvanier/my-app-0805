@@ -179,6 +179,60 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
+    export const deleteBook = (
+    bookId: number, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<null>> => {
+    
+    
+    return axios.delete(
+      `/api/books/${bookId}`,options
+    );
+  }
+
+
+
+export const getDeleteBookMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteBook>>, TError,{bookId: number}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteBook>>, TError,{bookId: number}, TContext> => {
+
+const mutationKey = ['deleteBook'];
+const {mutation: mutationOptions, axios: axiosOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, axios: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteBook>>, {bookId: number}> = (props) => {
+          const {bookId} = props ?? {};
+
+          return  deleteBook(bookId,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteBookMutationResult = NonNullable<Awaited<ReturnType<typeof deleteBook>>>
+    
+    export type DeleteBookMutationError = AxiosError<unknown>
+
+    export const useDeleteBook = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteBook>>, TError,{bookId: number}, TContext>, axios?: AxiosRequestConfig}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteBook>>,
+        TError,
+        {bookId: number},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteBookMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
     export const getBooks = (
     params?: GetBooksParams, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<BookResponse[]>> => {

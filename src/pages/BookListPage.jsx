@@ -1,4 +1,4 @@
-import { useGetBooks } from'../api/books/books.ts'
+import { getGetBooksQueryKey, useDeleteBook, useGetBooks } from'../api/books/books.ts'
 import { useCreateCartItem } from '../api/cart/cart.ts';
 import BookCard from '../components/BookCard.jsx';
 import { 
@@ -7,9 +7,12 @@ import {
   Alert
  } from '@mui/material';
  import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 function BookListPage () {
-  const { mutate: addToCart, isPending } = useCreateCartItem();
+  const queryClient = useQueryClient();
+  const { mutate: addToCart, isAddtoCartPending } = useCreateCartItem();
+  const { mutate: deleteBook, isDeletePending } = useDeleteBook();
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -31,6 +34,21 @@ function BookListPage () {
     );
   };
 
+  const handleDeleteBook = (b) => {
+    deleteBook(
+      {
+        bookId:b.bookId,
+      },
+      {
+        onSuccess: () => {
+          setSnackbar({ open: true, message: `Book is Deleted!`, severity: "success" })
+          queryClient.invalidateQueries({ queryKey: getGetBooksQueryKey() })},
+        onError: () =>
+          setSnackbar({ open: true, message: "Failed to delete the book.", severity: "error" }),
+      }
+    );
+  };
+
   const { data: books, isLoading, isError } = useGetBooks();
 
   if (isLoading) return <div>Loading books...</div>;
@@ -42,8 +60,10 @@ function BookListPage () {
         {books?.data?.map((b) => (
           <BookCard 
           book={b} 
-          isAdding={isPending}
+          isAdding={isAddtoCartPending}
+          isDeleting={isDeletePending}
           handleAddToCart={()=>handleAddToCart(b)}
+          handleDelete={()=>handleDeleteBook(b)}
           key={b.bookId} />
         ))}
       <Snackbar 

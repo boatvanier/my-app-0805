@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
 import { useGetBook } from'../api/books/books.ts'
 import BookCard from '../components/BookCard.jsx';
-import { Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 function BookViewPage () {

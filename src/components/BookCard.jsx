@@ -9,8 +9,9 @@ import {
 } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Link } from 'react-router-dom';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-function BookCard({book, handleAddToCart, isAdding}) {
+function BookCard({book, handleAddToCart, handleDelete, isAdding, isDeleting}) {
   return (
     <Card
       variant="outlined"
@@ -55,10 +56,20 @@ function BookCard({book, handleAddToCart, isAdding}) {
       <Button 
         startIcon={<AddShoppingCartIcon/>}
         onClick={handleAddToCart} 
-        disabled={isAdding}
+        disabled={isAdding || isDeleting}
       >
         Add to cart
       </Button>
+      <Button 
+        startIcon={<AddShoppingCartIcon/>}
+        disabled={isAdding || isDeleting}
+        color="error" 
+        onClick={handleDelete}
+      >
+        Delete Book
+      </Button>
+
+      <Link to={`/books/${book.bookId}/edit`}>Edit</Link>
     </CardActions>
     </Card>
   );
