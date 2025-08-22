@@ -3,7 +3,7 @@ import BookCard from '../components/BookCard.jsx';
 import { useParams } from 'react-router-dom';
 
 function BookViewPage () {
-  const {bookId} = useParams();
+  const { bookId } = useParams();
   const { data: book, isLoading, isError } = useGetBook(bookId);
 
   if (isLoading) return <div>Loading books...</div>;

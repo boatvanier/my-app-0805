@@ -18,7 +18,6 @@ export default function BookEditPage() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    // snackbar
     const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -26,8 +25,7 @@ export default function BookEditPage() {
   });
   const handleCloseSnackbar = () => setSnackbar((s) => ({ ...s, open: false }));
 
-
-    // Form state
+  // Form state
     const [form, setForm] = useState({ title: "", author: "", price: "" });
 
     // Fetch book data
@@ -116,16 +114,16 @@ export default function BookEditPage() {
             </Button>
         </Box>
         </Paper>
-              <Snackbar 
-              open={snackbar.open} 
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-              autoHideDuration={2000} 
-              onClose={handleCloseSnackbar}
-              >
-                <Alert severity={snackbar.severity} onClose={handleCloseSnackbar} sx={{ width: "100%" }}>
-                  {snackbar.message}
-                </Alert>
-              </Snackbar>
+          <Snackbar 
+          open={snackbar.open} 
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          autoHideDuration={2000} 
+          onClose={handleCloseSnackbar}
+          >
+            <Alert severity={snackbar.severity} onClose={handleCloseSnackbar} sx={{ width: "100%" }}>
+              {snackbar.message}
+            </Alert>
+          </Snackbar>
     </Container>
     );
 }

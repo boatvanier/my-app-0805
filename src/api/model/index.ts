@@ -11,6 +11,7 @@ export * from './cartCreateRequest';
 export * from './cartResponse';
 export * from './cartUpdateRequest';
 export * from './getBooksParams';
+export * from './loginRequest';
 export * from './orderItemResponse';
 export * from './orderRequest';
 export * from './orderResponse';

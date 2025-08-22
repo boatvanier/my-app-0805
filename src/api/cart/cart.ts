@@ -23,19 +23,13 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 
-import axios from 'axios';
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios';
-
 import type {
   CartCreateRequest,
   CartResponse,
   CartUpdateRequest
 } from '.././model';
 
+import { axiosInstance } from '../../axiosInstance';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -47,28 +41,30 @@ type AwaitedInput<T> = PromiseLike<T> | T;
 export const updateCartItem = (
     userId: number,
     bookId: number,
-    cartUpdateRequest: CartUpdateRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<null>> => {
-    
-    
-    return axios.put(
-      `/api/carts/${userId}/books/${bookId}`,
-      cartUpdateRequest,options
-    );
-  }
+    cartUpdateRequest: CartUpdateRequest,
+ ) => {
+      
+      
+      return axiosInstance<null>(
+      {url: `/api/carts/${userId}/books/${bookId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: cartUpdateRequest
+    },
+      );
+    }
+  
 
 
-
-export const getUpdateCartItemMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCartItem>>, TError,{userId: number;bookId: number;data: CartUpdateRequest}, TContext>, axios?: AxiosRequestConfig}
+export const getUpdateCartItemMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCartItem>>, TError,{userId: number;bookId: number;data: CartUpdateRequest}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof updateCartItem>>, TError,{userId: number;bookId: number;data: CartUpdateRequest}, TContext> => {
 
 const mutationKey = ['updateCartItem'];
-const {mutation: mutationOptions, axios: axiosOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, axios: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -76,7 +72,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCartItem>>, {userId: number;bookId: number;data: CartUpdateRequest}> = (props) => {
           const {userId,bookId,data} = props ?? {};
 
-          return  updateCartItem(userId,bookId,data,axiosOptions)
+          return  updateCartItem(userId,bookId,data,)
         }
 
         
@@ -86,10 +82,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
     export type UpdateCartItemMutationResult = NonNullable<Awaited<ReturnType<typeof updateCartItem>>>
     export type UpdateCartItemMutationBody = CartUpdateRequest
-    export type UpdateCartItemMutationError = AxiosError<unknown>
+    export type UpdateCartItemMutationError = unknown
 
-    export const useUpdateCartItem = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCartItem>>, TError,{userId: number;bookId: number;data: CartUpdateRequest}, TContext>, axios?: AxiosRequestConfig}
+    export const useUpdateCartItem = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCartItem>>, TError,{userId: number;bookId: number;data: CartUpdateRequest}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateCartItem>>,
         TError,
@@ -103,27 +99,28 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
     }
     export const deleteCartItem = (
     userId: number,
-    bookId: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<null>> => {
-    
-    
-    return axios.delete(
-      `/api/carts/${userId}/books/${bookId}`,options
-    );
-  }
+    bookId: number,
+ ) => {
+      
+      
+      return axiosInstance<null>(
+      {url: `/api/carts/${userId}/books/${bookId}`, method: 'DELETE'
+    },
+      );
+    }
+  
 
 
-
-export const getDeleteCartItemMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCartItem>>, TError,{userId: number;bookId: number}, TContext>, axios?: AxiosRequestConfig}
+export const getDeleteCartItemMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCartItem>>, TError,{userId: number;bookId: number}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof deleteCartItem>>, TError,{userId: number;bookId: number}, TContext> => {
 
 const mutationKey = ['deleteCartItem'];
-const {mutation: mutationOptions, axios: axiosOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, axios: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -131,7 +128,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteCartItem>>, {userId: number;bookId: number}> = (props) => {
           const {userId,bookId} = props ?? {};
 
-          return  deleteCartItem(userId,bookId,axiosOptions)
+          return  deleteCartItem(userId,bookId,)
         }
 
         
@@ -141,10 +138,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
     export type DeleteCartItemMutationResult = NonNullable<Awaited<ReturnType<typeof deleteCartItem>>>
     
-    export type DeleteCartItemMutationError = AxiosError<unknown>
+    export type DeleteCartItemMutationError = unknown
 
-    export const useDeleteCartItem = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCartItem>>, TError,{userId: number;bookId: number}, TContext>, axios?: AxiosRequestConfig}
+    export const useDeleteCartItem = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCartItem>>, TError,{userId: number;bookId: number}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteCartItem>>,
         TError,
@@ -158,28 +155,31 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
     }
     export const createCartItem = (
     userId: number,
-    cartCreateRequest: CartCreateRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<null>> => {
-    
-    
-    return axios.post(
-      `/api/carts/${userId}/books`,
-      cartCreateRequest,options
-    );
-  }
+    cartCreateRequest: CartCreateRequest,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<null>(
+      {url: `/api/carts/${userId}/books`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: cartCreateRequest, signal
+    },
+      );
+    }
+  
 
 
-
-export const getCreateCartItemMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCartItem>>, TError,{userId: number;data: CartCreateRequest}, TContext>, axios?: AxiosRequestConfig}
+export const getCreateCartItemMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCartItem>>, TError,{userId: number;data: CartCreateRequest}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof createCartItem>>, TError,{userId: number;data: CartCreateRequest}, TContext> => {
 
 const mutationKey = ['createCartItem'];
-const {mutation: mutationOptions, axios: axiosOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, axios: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -187,7 +187,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCartItem>>, {userId: number;data: CartCreateRequest}> = (props) => {
           const {userId,data} = props ?? {};
 
-          return  createCartItem(userId,data,axiosOptions)
+          return  createCartItem(userId,data,)
         }
 
         
@@ -197,10 +197,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
     export type CreateCartItemMutationResult = NonNullable<Awaited<ReturnType<typeof createCartItem>>>
     export type CreateCartItemMutationBody = CartCreateRequest
-    export type CreateCartItemMutationError = AxiosError<unknown>
+    export type CreateCartItemMutationError = unknown
 
-    export const useCreateCartItem = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCartItem>>, TError,{userId: number;data: CartCreateRequest}, TContext>, axios?: AxiosRequestConfig}
+    export const useCreateCartItem = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCartItem>>, TError,{userId: number;data: CartCreateRequest}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createCartItem>>,
         TError,
@@ -213,31 +213,33 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       return useMutation(mutationOptions , queryClient);
     }
     export const getCart = (
-    userId: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<CartResponse[]>> => {
-    
-    
-    return axios.get(
-      `/api/carts/${userId}`,options
-    );
-  }
-
+    userId: number,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<CartResponse[]>(
+      {url: `/api/carts/${userId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getGetCartQueryKey = (userId?: number,) => {
     return [`/api/carts/${userId}`] as const;
     }
 
     
-export const getGetCartQueryOptions = <TData = Awaited<ReturnType<typeof getCart>>, TError = AxiosError<unknown>>(userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetCartQueryOptions = <TData = Awaited<ReturnType<typeof getCart>>, TError = unknown>(userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetCartQueryKey(userId);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCart>>> = ({ signal }) => getCart(userId, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCart>>> = ({ signal }) => getCart(userId, signal);
 
       
 
@@ -247,36 +249,36 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type GetCartQueryResult = NonNullable<Awaited<ReturnType<typeof getCart>>>
-export type GetCartQueryError = AxiosError<unknown>
+export type GetCartQueryError = unknown
 
 
-export function useGetCart<TData = Awaited<ReturnType<typeof getCart>>, TError = AxiosError<unknown>>(
+export function useGetCart<TData = Awaited<ReturnType<typeof getCart>>, TError = unknown>(
  userId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getCart>>,
           TError,
           Awaited<ReturnType<typeof getCart>>
         > , 'initialData'
-      >, axios?: AxiosRequestConfig}
+      >, }
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCart<TData = Awaited<ReturnType<typeof getCart>>, TError = AxiosError<unknown>>(
+export function useGetCart<TData = Awaited<ReturnType<typeof getCart>>, TError = unknown>(
  userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getCart>>,
           TError,
           Awaited<ReturnType<typeof getCart>>
         > , 'initialData'
-      >, axios?: AxiosRequestConfig}
+      >, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCart<TData = Awaited<ReturnType<typeof getCart>>, TError = AxiosError<unknown>>(
- userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetCart<TData = Awaited<ReturnType<typeof getCart>>, TError = unknown>(
+ userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetCart<TData = Awaited<ReturnType<typeof getCart>>, TError = AxiosError<unknown>>(
- userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetCart<TData = Awaited<ReturnType<typeof getCart>>, TError = unknown>(
+ userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>>, }
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
